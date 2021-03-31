@@ -1,0 +1,52 @@
+<psk-example class="mobile-example">
+    <psk-mobile disable-sidebar=true disable-header=true>
+        <header class="mobile">
+            <psk-img class="navbar-img" src="assets/images/PharmaLedger_logo_RGB_FINAL.png"></psk-img>
+        </header>
+        <psk-layout row-gap="0.2em">
+            <psk-layout-item align="center">
+                <h4>USER LOGIN</h4>
+            </psk-layout-item>
+            <psk-card>
+                <psk-form>
+                    <psk-form-row layout="xs=[12] m=[6] l=[12] xl=[4]">
+                        <psk-label>USERNAME</psk-label>
+                        <psk-text-input></psk-text-input>
+                    </psk-form-row>
+
+                    <psk-form-row layout="xs=[12] m=[6] l=[12] xl=[4]">
+                        <psk-label>PASSWORD</psk-label>
+                        <psk-text-input></psk-text-input>
+                    </psk-form-row>
+
+                    <psk-button
+                            label="Sign In"
+                            event-name="sign-in"
+                            event-data="sign-in"
+                            class="btn-menu bottom-border">
+                    </psk-button>
+                </psk-form>
+            </psk-card>
+        </psk-layout>
+
+        <div slot="footer">
+            <psk-link page="initiate" class='button-link alignBottom'>
+                <psk-img class="navbar-img" src="assets/images/footer/box-open-solid_grey.svg" height='22'></psk-img>
+            </psk-link>
+            <psk-link page="home" class='button-link alignBottom'>
+                <psk-img class="navbar-img" src="assets/images/footer/chart-bar-regular_grey.svg" height='22'></psk-img>
+            </psk-link>
+            <psk-link page="my-actions" class='button-link alignBottom'>
+                <psk-img class="navbar-img" src="assets/images/footer/bell-regular_grey.svg" height='22'></psk-img>
+            </psk-link>
+            <psk-link page="login" class='button-link alignBottom'>
+                <psk-img class="navbar-img" src="assets/images/footer/user-regular_grey.svg" height='22'></psk-img>
+            </psk-link>
+            <psk-link page="timeline" class='button-link alignBottom'>
+                <psk-img class="navbar-img" src="assets/images/footer/calendar-alt-regular_grey.svg" height='22'></psk-img>
+            </psk-link>
+        </div>
+
+    </psk-mobile>
+</psk-example>
+b

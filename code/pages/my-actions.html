@@ -1,0 +1,74 @@
+<psk-example class="mobile-example">
+    <psk-mobile disable-sidebar=true disable-header=true>
+        <header class="mobile">
+            <psk-img class="navbar-img" src="assets/images/PharmaLedger_logo_RGB_FINAL.png"></psk-img>
+        </header>
+    <psk-layout row-gap="0.2em">
+        <psk-layout-item align="center">
+            <h4>MY ACTIONS</h4>
+        </psk-layout-item>
+        <psk-layout-item align="center">
+            <h5>Pending</h5>
+        </psk-layout-item>
+        <psk-layout-item col-start="4" col-end="12" align="left">
+            <psk-card title="SHIP ID CXDSH10002">
+                <p>CPO: CPO</p>
+                <p>Site ID: 565656</p>
+                <p>Request Delivery Date: March 6, 2020</p>
+                <p>Ship ID: 454545</p>
+                <p>Order ID: 687988</p>
+                <p>Shipment Status: Shipment Initiated</p>
+                <p>Distributor: Distributor</p>
+                <p>Study ID: 234523</p>
+                <psk-button 
+                    label="Approve" 
+                    event-name="approved" 
+                    event-data="approved" 
+                    class="btn-menu bottom-border">
+                </psk-button>
+                <psk-button 
+                    label="Reject" 
+                    event-name="rejected" 
+                    event-data="rejected" 
+                    class="btn-menu bottom-border">
+                </psk-button>
+            </psk-card>
+        </psk-layout-item>
+
+        <psk-layout-item align="center">
+            <h5>Approved</h5>
+        </psk-layout-item>
+        <psk-layout-item col-start="2" col-end="6" align="left">
+            <psk-card title="SHIP ID CXDSH10002">
+                <p>CPO: CPO</p>
+                <p>Site ID: 565656</p>
+                <p>Request Delivery Date: March 6, 2020 </p>
+                <p>Ship ID: 454545</p>
+                <p>Order ID: 687988</p>
+                <p>Shipment Status: Shipment Approved</p>
+                <p>Distributor: Distributor</p>
+                <p>Study ID: 234523</p>
+            </psk-card>
+        </psk-layout-item>
+    </psk-layout>
+
+        <div slot="footer">
+            <psk-link page="initiate" class='button-link alignBottom'>
+                <psk-img class="navbar-img" src="assets/images/footer/box-open-solid_grey.svg" height='22'></psk-img>
+            </psk-link>
+            <psk-link page="home" class='button-link alignBottom'>
+                <psk-img class="navbar-img" src="assets/images/footer/chart-bar-regular_grey.svg" height='22'></psk-img>
+            </psk-link>
+            <psk-link page="my-actions" class='button-link alignBottom'>
+                <psk-img class="navbar-img" src="assets/images/footer/bell-regular_grey.svg" height='22'></psk-img>
+            </psk-link>
+            <psk-link page="login" class='button-link alignBottom'>
+                <psk-img class="navbar-img" src="assets/images/footer/user-regular_grey.svg" height='22'></psk-img>
+            </psk-link>
+            <psk-link page="timeline" class='button-link alignBottom'>
+                <psk-img class="navbar-img" src="assets/images/footer/calendar-alt-regular_grey.svg" height='22'></psk-img>
+            </psk-link>
+        </div>
+
+    </psk-mobile>
+</psk-example>

@@ -1,0 +1,129 @@
+<psk-example class="mobile-example">
+    <psk-mobile disable-sidebar=true disable-header=true padding="none">
+        <header class="mobile">
+                <psk-img class="navbar-img" height='70' width='400' padding='none' style="padding:none" src="assets/images/header-csc.png"></psk-img>
+        </header>
+        <psk-layout row-gap="0.2em">
+            <psk-layout-item align="center">
+                <h6 font-weight="bold" font-size="10px" style="color:#002855">DASHBOARD</h6>
+            </psk-layout-item>
+
+            <psk-layout-item align="center">
+                <psk-img class="navbar-img" height='300' src="assets/images/dashboard-chart.png"></psk-img>
+            </psk-layout-item>
+
+            <div style="margin-top: 275px; margin-left: 10px">
+                <psk-button
+                        event-name="shipment"
+                        event-data="shipment"
+                        class="btn-menu bottom-border">
+                    <h6>40</h6>
+                    <h6>Shipment</h6>
+                    <psk-link page="timeline" class='button-link alignBottom'>
+                        <psk-img class="navbar-img" src="assets/images/bar/grip-lines-solid-one.png"></psk-img>
+                    </psk-link>
+                </psk-button>
+                <psk-button
+                        event-name="initiate"
+                        event-data="initate"
+                        class="btn-menu bottom-border">
+                    <h6>5</h6>
+                    <h6>Initiate</h6>
+                    <psk-link page="timeline" class='button-link alignBottom'>
+                        <psk-img class="navbar-img" src="assets/images/bar/grip-lines-solid-two.png"></psk-img>
+                    </psk-link>
+                </psk-button>
+                <psk-button
+                        event-name="approved"
+                        event-data="approved"
+                        class="btn-menu bottom-border">
+                    <h6>5</h6>
+                    <h6>Approved</h6>
+                    <psk-link page="timeline" class='button-link alignBottom'>
+                        <psk-img class="navbar-img"  src="assets/images/bar/grip-lines-solid-three.png"></psk-img>
+                    </psk-link>
+                </psk-button>
+                <psk-button
+                        event-name="ready"
+                        event-data="ready"
+                        class="btn-menu bottom-border">
+                    <h6>5</h6>
+                    <h6>Ready</h6>
+                    <psk-link page="timeline" class='button-link alignBottom'>
+                        <psk-img class="navbar-img"  src="assets/images/bar/grip-lines-solid-four.png"></psk-img>
+                    </psk-link>
+                </psk-button>
+                <psk-button
+                        event-name="in-transit"
+                        event-data="in-transit"
+                        class="btn-menu bottom-border">
+                    <h6>5</h6>
+                    <h6>In Transit</h6>
+                    <psk-link page="timeline" class='button-link alignBottom'>
+                        <psk-img class="navbar-img" src="assets/images/bar/grip-lines-solid-five.png"></psk-img>
+                    </psk-link>
+                </psk-button>
+                <psk-button
+                        event-name="delivered"
+                        event-data="delivered"
+                        class="btn-menu bottom-border">
+                    <h6>5</h6>
+                    <h6>Delivered</h6>
+                    <psk-link page="timeline" class='button-link alignBottom'>
+                        <psk-img class="navbar-img" src="assets/images/bar/grip-lines-solid-six.png"></psk-img>
+                    </psk-link>
+                </psk-button>
+                <psk-button
+                        event-name="received"
+                        event-data="received"
+                        class="btn-menu bottom-border">
+                    <h6>5</h6>
+                    <h6>Received</h6>
+                    <psk-link page="timeline" class='button-link alignBottom'>
+                        <psk-img class="navbar-img" src="assets/images/bar/grip-lines-solid-seven.png"></psk-img>
+                    </psk-link>
+                </psk-button>
+                <psk-button
+                        event-name="dispensed"
+                        event-data="dispensed"
+                        class="btn-menu bottom-border">
+                    <h6>5</h6>
+                    <h6>Dispense</h6>
+                    <psk-link page="timeline" class='button-link alignBottom'>
+                        <psk-img class="navbar-img" src="assets/images/bar/grip-lines-solid-eight.png"></psk-img>
+                    </psk-link>
+                </psk-button>
+                <psk-button
+                        event-name="destroyed"
+                        event-data="destroyed"
+                        class="btn-dispensed">
+                    <h6>5</h6>
+                    <h6>Destroy</h6>
+                    <psk-link page="timeline" class='button-link alignBottom'>
+                        <psk-img class="navbar-img" src="assets/images/bar/grip-lines-solid-eight.png"></psk-img>
+                    </psk-link>
+                </psk-button>
+            </div>
+        </psk-layout>
+
+
+        <div slot="footer">
+            <psk-link page="scan" class='button-link alignBottom'>
+                <psk-img class="navbar-img" src="assets/images/footer/data.png" height='22'></psk-img>
+            </psk-link>
+            <psk-link page="home" class='button-link alignBottom'>
+                <psk-img class="navbar-img" src="assets/images/footer/chart-bar-regular_grey.svg" height='22'></psk-img>
+            </psk-link>
+            <psk-link page="my-actions" class='button-link alignBottom'>
+                <psk-img class="navbar-img" src="assets/images/footer/bell-regular_grey.svg" height='22'></psk-img>
+            </psk-link>
+            <psk-link page="login" class='button-link alignBottom'>
+                <psk-img class="navbar-img" src="assets/images/footer/user-regular_grey.svg" height='22'></psk-img>
+            </psk-link>
+            <psk-link page="timeline" class='button-link alignBottom'>
+                <psk-img class="navbar-img" src="assets/images/footer/calendar-alt-regular_grey.svg" height='22'></psk-img>
+            </psk-link>
+        </div>
+
+    </psk-mobile>
+</psk-example>

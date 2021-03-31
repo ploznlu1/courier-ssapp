@@ -1,0 +1,35 @@
+{
+  "defaultMenuConfig": {
+    "icon": "fa-bars",
+    "type": "route",
+    "component": "psk-page-loader",
+    "exact": true,
+    "404": "/pages/404.html"
+  },
+  "pages": [
+    {
+      "name": "Home",
+      "tags": "home"
+    },
+    {
+      "name": "Scan",
+      "tags": "scan"
+    },
+    {
+      "name": "Initiate",
+      "tags": "initiate"
+    },
+    {
+      "name": "Login",
+      "tags": "login"
+    },
+    {
+      "name": "Timeline",
+      "tags": "timeline"
+    },
+    {
+      "name": "My Actions",
+      "tags": "my-actions"
+    }
+  ]
+}
