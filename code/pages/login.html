@@ -1,52 +1,106 @@
 <psk-example class="mobile-example">
     <psk-mobile disable-sidebar=true disable-header=true>
         <header class="mobile">
-            <psk-img class="navbar-img" src="assets/images/PharmaLedger_logo_RGB_FINAL.png"></psk-img>
+            <div class="header">
+                <div class="headerimg">
+                    <psk-img class="navbar-img" src="assets/images/PharmaLedger_logo_RGB_FINAL.png"></psk-img>
+                </div>
+            </div>
         </header>
         <psk-layout row-gap="0.2em">
-            <psk-layout-item align="center">
-                <h4>USER LOGIN</h4>
+            <psk-layout-item align="center" style="margin-top:20px">
+                <h5 class="courier-header">LOGIN</h5>
             </psk-layout-item>
-            <psk-card>
-                <psk-form>
-                    <psk-form-row layout="xs=[12] m=[6] l=[12] xl=[4]">
-                        <psk-label>USERNAME</psk-label>
-                        <psk-text-input></psk-text-input>
+
+
+
+            <psk-card class="">
+                <psk-form controller-name="LoginController">
+
+                    <psk-modal class="mobile-modal" opened="@modal.opened">
+                        <psk-label slot="title" label="@modal.title"></psk-label>
+                        <psk-label label="@modal.message"></psk-label>
+                        <psk-button slot="footer" event-name="closeModal" label="Close"></psk-button>
+                    </psk-modal>
+
+                    <psk-form-row style="margin-top:10px">
+                        <psk-grid columns="1" layout="l=[4,4,4]">
+                            <psk-text-input class="courier-input" view-model="couriername"></psk-text-input>
+                        </psk-grid>
                     </psk-form-row>
 
-                    <psk-form-row layout="xs=[12] m=[6] l=[12] xl=[4]">
-                        <psk-label>PASSWORD</psk-label>
-                        <psk-text-input></psk-text-input>
+                    <psk-form-row style="margin-top:10px">
+                        <psk-grid columns="1" layout="l=[4,4,4]">
+                            <psk-text-input class="courier-input" view-model="username"></psk-text-input>
+                        </psk-grid>
                     </psk-form-row>
 
-                    <psk-button
-                            label="Sign In"
-                            event-name="sign-in"
-                            event-data="sign-in"
-                            class="btn-menu bottom-border">
-                    </psk-button>
+                    <psk-form-row>
+                        <psk-password-input class="courier-input" view-model="password" read-only="true">
+                        </psk-password-input>
+                    </psk-form-row>
+                    <psk-layout-item style="display:flex; justify-content: center" align="center" style="margin:10px 0px">
+                        <psk-button button-class="btn btn-success courier-button" event-name="loginSubmit" label="Sign In">
+                        </psk-button>
+                    </psk-layout-item>
+                    <br />
+                    <!-- <psk-condition condition=@showalert>
+                        <psk-label class=@alertclass label=@message>
+                            <psk-condition condition=@showlink>
+                                <psk-link page="createdemokits">Go to Dashboard</psk-link>
+                            </psk-condition>
+                        </psk-label>
+                    </psk-condition> -->
                 </psk-form>
             </psk-card>
         </psk-layout>
-
-        <div slot="footer">
-            <psk-link page="initiate" class='button-link alignBottom'>
-                <psk-img class="navbar-img" src="assets/images/footer/box-open-solid_grey.svg" height='22'></psk-img>
-            </psk-link>
-            <psk-link page="home" class='button-link alignBottom'>
-                <psk-img class="navbar-img" src="assets/images/footer/chart-bar-regular_grey.svg" height='22'></psk-img>
-            </psk-link>
-            <psk-link page="my-actions" class='button-link alignBottom'>
-                <psk-img class="navbar-img" src="assets/images/footer/bell-regular_grey.svg" height='22'></psk-img>
-            </psk-link>
-            <psk-link page="login" class='button-link alignBottom'>
-                <psk-img class="navbar-img" src="assets/images/footer/user-regular_grey.svg" height='22'></psk-img>
-            </psk-link>
-            <psk-link page="timeline" class='button-link alignBottom'>
-                <psk-img class="navbar-img" src="assets/images/footer/calendar-alt-regular_grey.svg" height='22'></psk-img>
-            </psk-link>
-        </div>
-
     </psk-mobile>
 </psk-example>
-b
+<style>
+    .courier-header {
+        font-size: 18px;
+        color: #0AA524;
+        font-weight: bold;
+    }
+    /*  .courier-input {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-size: 15px;
+    } */
+    
+    .courier-input input {
+        border: 1.5px solid #0AA524;
+        border-radius: 9px;
+    }
+    
+    .courier-input label {
+        color: #0AA524;
+    }
+    
+    .courier-button {
+        background-color: #0AA524 !important;
+        border-color: #0AA524 !important;
+    }
+    
+    .headerimg {
+        background-color: white;
+        height: 65px;
+        width: 200px;
+    }
+    
+    .header {
+        box-shadow: 0px 5px 5px #888888;
+        width: 415px;
+        height: 65px;
+        background-color: white;
+    }
+    
+    .navbar-img img {
+        margin-left: -65px;
+        margin-right: auto;
+        height: 57px;
+    }
+    /* .courier-card .card {
+        border: 1.5px solid #0AA524;
+        border-radius: 1rem;
+    } */
+</style>
