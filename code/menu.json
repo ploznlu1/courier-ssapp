@@ -17,6 +17,14 @@
         {
             "name": "adminlist",
             "tags": "adminlist"
+        },
+        {
+            "name": "editkit",
+            "tags": "editkit"
+        },
+        {
+            "name": "userlist",
+            "tags": "userlist"
         }
     ]
 }

@@ -9,7 +9,7 @@
         </header>
         <psk-layout row-gap="0.2em">
             <psk-layout-item align="center" style="margin-top:20px">
-                <h5 class="courier-header">LOGIN</h5>
+                <h5 class="courier-header">Login</h5>
             </psk-layout-item>
 
 
@@ -53,6 +53,24 @@
                     </psk-condition> -->
                 </psk-form>
             </psk-card>
+
+            <psk-layout-item align="center" style="margin-top:20px">
+                <h5 class="admin-header">DSU Config</h5>
+            </psk-layout-item>
+            <psk-card>
+                <psk-form controller-name="LoginController">
+                    <psk-modal class="mobile-modal" opened="@modal.opened">
+                        <psk-label slot="title" label="@modal.title"></psk-label>
+                        <psk-label label="@modal.message"></psk-label>
+                        <psk-button slot="footer" event-name="closeModal" label="Close"></psk-button>
+                    </psk-modal>
+                    <psk-button button-class="btn btn-success admin-button" event-name="getSSI" label="Get SSI"></psk-button>
+                    <psk-textarea class="admin-input" view-model="newDSU" read-only=true value="@newDSU.value"></psk-textarea>
+                    <psk-textarea class="admin-input" view-model="loadDSU"></psk-textarea>
+                    <psk-button button-class="btn btn-success admin-button" event-name="loadDSU" label="Load DSU">
+                    </psk-button>
+                </psk-form>
+            </psk-card>
         </psk-layout>
     </psk-mobile>
 </psk-example>
@@ -67,7 +85,8 @@
         font-size: 15px;
     } */
     
-    .courier-input input {
+    .courier-input input,
+    .courier-input textarea {
         border: 1.5px solid #0AA524;
         border-radius: 9px;
     }
@@ -98,6 +117,29 @@
         margin-left: -65px;
         margin-right: auto;
         height: 57px;
+    }
+    
+    .admin-header {
+        font-size: 18px;
+        color: #9B1616;
+        font-weight: bold;
+    }
+    
+    .admin-input input,
+    .admin-input select,
+    .admin-input textarea {
+        border: 1.5px solid #9B1616;
+        border-radius: 9px;
+        min-height: 40px;
+    }
+    
+    .admin-input label {
+        color: #9B1616;
+    }
+    
+    .admin-button {
+        background-color: #9B1616 !important;
+        border-color: #9B1616 !important;
     }
     /* .courier-card .card {
         border: 1.5px solid #0AA524;
