@@ -4,8 +4,10 @@ import DSUManager from "./DSUManager.js";
 const model = {
     user: "",
     courier: "",
-    id: {
-        value: ""
+    modal: {
+        opened: false,
+        title: "",
+        message: ""
     },
     kitid: {
         label: "Kit-ID",
@@ -33,7 +35,6 @@ const model = {
             value: "2"
         }, {
             label: "Delivered to patient",
-            /*wird nicht benutzt*/
             value: "3"
         }, {
             label: "Ready for pickup at patient",
@@ -65,6 +66,10 @@ const model = {
         placeholder: "Description here...",
         value: ""
     },
+    creationdate: {
+        label: "Creation Date",
+        name: "creationdate"
+    },
     kit: {
         id: "",
         kitid: "",
@@ -74,42 +79,26 @@ const model = {
         description: "",
         creationdate: ""
     },
-    modal: {
-        opened: false,
-        title: "",
-        message: ""
-    }
+    nextStep: "",
+    buttonDisabled: false
 }
 
 
-export default class CreateDemoKitsController extends ContainerController {
+export default class KitDetailsController extends ContainerController {
     constructor(element, history) {
         super(element, history);
         this.model = this.setModel(JSON.parse(JSON.stringify(model)));
-        this.model.courier = DSUManager.getCourier();
         this.model.user = DSUManager.getUser();
-        this.on("createKit", async() => {
-            this.model.kit.kitid = this.model.kitid.value;
-            this.model.kit.productname = this.model.productname.value;
-            this.model.kit.status = this.model.statusSelect.value;
-            this.model.kit.courier = this.model.courierSelect.value;
-            this.model.kit.description = this.model.description.value;
-            let date = Date(Date.now());
-            this.model.kit.creationdate = date.toString();
-
-            await DSUManager.createKit(this.model.kit);
-            showModal(this.model, "Success", ("Kit " + this.model.kit.kitid + " created successfully."));
-
-            this.model.id.value = "";
-            this.model.kitid.value = "";
-            this.model.productname.value = "";
-            this.model.statusSelect.value = "";
-            this.model.courierSelect.value = "";
-            this.model.description.value = "";
-            this.model.kitid.value = "";
+        this.model.courier = DSUManager.getCourier();
+        let state = this.History.getState();
+        this.id = typeof state !== "undefined" ? state.id : undefined;
+        this.model.kit = getKit(this.id);
+        getNextStep(this.model, this.model.kit.status);
+        this.on("closeModal", () => this.History.navigateToPageByTag("courierlist"));
+        this.on("nextStep", async() => {
+            await DSUManager.nextStep(this.model.kit.id);
+            showModal(this.model);
         });
-        this.on("closeModal", () => this.model.modal.opened = false);
-        this.on("showList", () => this.History.navigateToPageByTag("adminlist"));
     }
 }
 
@@ -120,6 +109,24 @@ async function showModal(model) {
     model.modal.message = modal[1];
     if (model.modal.title != "" && model.modal.message != "") {
         model.modal.opened = true;
+    }
+    return model;
+}
+
+function getKit(id) {
+    let kit = "";
+    kit = DSUManager.getKit(id);
+    return kit;
+}
+
+function getNextStep(model, status) {
+    if (status == 1) model.nextStep = "Picked up from Clincial Resource";
+    else if (status == 2) model.nextStep = "Deliver to Patient";
+    else if (status == 4) model.nextStep = "Picked up from Patient";
+    else if (status == 5) model.nextStep = "Unused Product destroyed";
+    else if (status == 6) {
+        model.nextStep = "Product already destroyed";
+        model.buttonDisabled = true;
     }
     return model;
 }

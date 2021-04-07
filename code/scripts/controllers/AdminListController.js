@@ -8,6 +8,38 @@ const model = {
         opened: false,
         title: "",
         message: ""
+    },
+    searchStatus: {
+        label: "Search by Status",
+        placeholder: "Please select one option...",
+        required: true,
+        options: [{
+            label: "Ready for pickup at Clinical Resource",
+            value: "1"
+        }, {
+            label: "In transit",
+            value: "2"
+        }, {
+            label: "Delivered to patient",
+            /*wird nicht benutzt*/
+            value: "3"
+        }, {
+            label: "Ready for pickup at patient",
+            value: "4"
+        }, {
+            label: "Unused product in transit",
+            value: "5"
+        }, {
+            label: "Done",
+            value: "6"
+        }]
+    },
+    searchID: {
+        label: "Search by ID",
+        name: "searchID",
+        required: true,
+        placeholder: "ID here...",
+        value: ""
     }
 }
 
@@ -18,13 +50,10 @@ export default class AdminListController extends ContainerController {
         this.model = this.setModel(JSON.parse(JSON.stringify(model)));
         this.model.courier = DSUManager.getCourier();
         this.model.user = DSUManager.getUser();
-        this.on('closeModal', () => this.model.modal.opened = false);
-        this.on('createKit', () => this.History.navigateToPageByTag("createdemokits"));
-        this.on('loadKits', async() => {
-            /* await new Promise(resolve => setTimeout(resolve, 400)); */
-            this.model.kits = getKits()
-        });
-        this.on('editKit', (event) => {
+        this.on("closeModal", () => this.model.modal.opened = false);
+        this.on("createKit", () => this.History.navigateToPageByTag("createdemokits"));
+        this.on("loadKits", async() => this.model.kits = await getKits());
+        this.on("editKit", (event) => {
             const id = event.target.getAttribute("id");
             this.History.navigateToPageByTag("editkit", { id: id });
         });

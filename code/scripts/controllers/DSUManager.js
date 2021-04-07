@@ -1,19 +1,18 @@
+import DSU_SSI from "./../../DSU_SSI.js";
+
 let dsu = "";
 let user = "";
 let courier = "";
 let userLoggedIn = false;
-let ssi = "loading...";
 let modaltitle = "";
 let modalmessage = "";
 
 
 const opendsu = require("opendsu");
 const resolver = opendsu.loadApi("resolver");
-const keyssispace = opendsu.loadApi("keyssi");
-const seedSSI = keyssispace.createSeedSSI('default');
 
 
-async function createDSU() {
+/* sync function createDSU() {
     await new Promise((resolve, reject) => {
         try {
             resolver.createDSU(seedSSI, (err, dsuInstance) => {
@@ -37,23 +36,18 @@ async function createDSU() {
 
 function getSSI() {
     return ssi;
-}
+} */
 
-function loadDSU(ssi) {
+function loadDSU() {
     try {
-        resolver.loadDSU(ssi, (err, dsuInstance) => {
-
+        resolver.loadDSU(DSU_SSI.getSSI(), (err, dsuInstance) => {
             dsu = dsuInstance;
             console.log("DSU loaded", dsu);
-            modaltitle = "Success";
-            modalmessage = "DSU has been loaded";
-
-
+            setModal("Sucess", "DSU has been loaded");
         })
     } catch (err) {
         console.error(err);
-        modaltitle = "Error";
-        modalmessage = "DSU has NOT been loaded, check console";
+        setModal("Error", "DSU has NOT been loaded, check console");
     }
 
 
@@ -66,7 +60,7 @@ function getDSU() {
 async function setUser(courierParameter, userParameter) {
     await new Promise((resolve, reject) => {
         let loginArray = [courierParameter, userParameter];
-        dsu.writeFile('/userdetails', loginArray.toString(), (err) => {
+        dsu.writeFile("/userdetails", loginArray.toString(), (err) => {
             if (err) {
                 reject(err);
             } else {
@@ -76,7 +70,7 @@ async function setUser(courierParameter, userParameter) {
             }
         });
     }).then((message) => {
-        console.log('success', message);
+        console.log("success", message);
         userLoggedIn = true;
     }).catch((message) => {
         console.log("error", message);
@@ -86,19 +80,7 @@ async function setUser(courierParameter, userParameter) {
 }
 
 function getUser() {
-    /*   let username = "dsads";
-      dsu.readFile('/userdetails', (err, buffer) => {
-          let dataObject = JSON.parse(buffer.toString());
-          console.log("dataobject:", dataObject);
-          username = dataObject;
-          if (err) {
-              console.log(err);
-          }
-          console.log("username:", username);
-          return username;
-      }); */
     return user;
-
 }
 
 function getCourier() {
@@ -116,7 +98,7 @@ function isUserLoggedIn() {
 
 async function createKit(kit) {
     await new Promise((resolve, reject) => {
-        dsu.listFiles('/', (err, files) => {
+        dsu.listFiles("/", (err, files) => {
             if (err) {
                 reject(err);
             } else {
@@ -132,37 +114,35 @@ async function createKit(kit) {
         console.log(message);
     });
     await new Promise((resolve, reject) => {
-        dsu.writeFile('/kit' + kit.id, JSON.stringify(kit), (err) => {
+        dsu.writeFile("/kit" + kit.id, JSON.stringify(kit), (err) => {
             if (err) {
                 reject(err);
             } else {
-                resolve("Kit created with ID: " + kit.id);
+                resolve("Kit " + kit.kitid + " was created.");
 
             }
         })
     }).then((message) => {
-        console.log();
+        setModal("Success", message);
         kit.id = "";
-    }).catch((message) => {
+    }).catch((err) => {
+        setModal("Error", "Kit was NOT created, check console");
         console.log(err);
     })
 
 }
 
-function getKits() {
+async function getKits() {
     let kits = [];
-    dsu.listFiles('/', (err, files) => {
+    await dsu.listFiles("/", async(err, files) => {
         console.log(files);
-        files.forEach((kit, index) => {
+        await files.forEach(async(kit) => {
             if (kit != "dsu-metadata-log" && kit != "userdetails") {
-                /* console.log(`i:${index} | Kit:`, kit); */
-                dsu.readFile('/' + kit, (err, buffer) => {
-                    const dataObject = JSON.parse(buffer.toString());
-                    /*   console.log(dataObject); */
-                    kits.push(dataObject);
+                await dsu.readFile("/" + kit, (err, buffer) => {
+                    let kitObject = JSON.parse(buffer.toString());
+                    kits.push(kitObject);
                 });
             }
-
         });
         console.log(kits);
     });
@@ -172,7 +152,7 @@ function getKits() {
 
 function getKit(id) {
     let kit = "";
-    dsu.readFile('/kit' + id, (err, buffer) => {
+    dsu.readFile("/kit" + id, (err, buffer) => {
         const dataObject = JSON.parse(buffer.toString());
         /*   console.log(dataObject); */
         kit = dataObject;
@@ -180,14 +160,48 @@ function getKit(id) {
     return kit;
 }
 
+async function getCourierKits() {
+    let courierKits = [];
+    await dsu.listFiles("/", async(err, files) => {
+        console.log(files);
+        await files.forEach(async(kit) => { /* index needed? */
+            if (kit != "dsu-metadata-log" && kit != "userdetails") {
+                await dsu.readFile("/" + kit, (err, buffer) => {
+                    let kitObject = JSON.parse(buffer.toString());
+
+                    if (kitObject.courier == courier) {
+                        courierKits.push(kitObject);
+                    }
+                });
+            }
+
+        });
+
+    });
+    return courierKits;
+}
+
+function setModal(title, message) {
+    modaltitle = title;
+    modalmessage = message;
+}
+
 function getModal() {
-    console.log(modaltitle, modalmessage);
     return [modaltitle, modalmessage];
 }
 
+async function nextStep(id) {
+    let kit = getKit(id);
+    if (kit.status == 1) kit.status = 2;
+    else if (kit.status == 2) kit.status = 4;
+    else if (kit.status == 4) kit.status = 5;
+    else if (kit.status == 5) kit.status = 6;
+    await createKit(kit);
+    setModal("Success", "Status was changed successfully");
+}
 export default {
-    createDSU,
-    getSSI,
+    /*     createDSU,
+        getSSI, */
     loadDSU,
     getDSU,
     setUser,
@@ -198,5 +212,8 @@ export default {
     createKit,
     getKits,
     getKit,
-    getModal
+    getCourierKits,
+    setModal,
+    getModal,
+    nextStep
 }

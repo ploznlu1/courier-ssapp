@@ -14,14 +14,14 @@ const model = {
         name: "kitid",
         required: true,
         placeholder: "Kit-ID here...",
-        value: ''
+        value: ""
     },
     productname: {
         label: "Product Name",
         name: "product Name",
         required: true,
         placeholder: "Prodcut Name here...",
-        value: ''
+        value: ""
     },
     statusSelect: {
         label: "Status",
@@ -64,7 +64,7 @@ const model = {
         name: "description",
         required: true,
         placeholder: "Description here...",
-        value: ''
+        value: ""
     },
     creationdate: {
         label: "Creation Date",
@@ -91,7 +91,7 @@ export default class EditKitController extends ContainerController {
         let state = this.History.getState();
         this.id = typeof state !== "undefined" ? state.id : undefined;
         this.model.kit = getKit(this.id);
-        this.on('closeModal', _ => this.model.modal.opened = false);
+        this.on("closeModal", () => this.model.modal.opened = false);
         this.on("saveKit", async() => {
 
 
@@ -113,7 +113,7 @@ async function showModal(model) {
 }
 
 function getKit(id) {
-    let kit = ""
+    let kit = "";
     kit = DSUManager.getKit(id);
     return kit;
 }

@@ -7,44 +7,41 @@ const model = {
         name: "couriername",
         required: true,
         placeholder: "Courier name here...",
-        value: ''
+        value: ""
     },
     username: {
         label: "Username",
         name: "username",
         required: true,
         placeholder: "Username here...",
-        value: ''
+        value: ""
     },
     password: {
         label: "Password",
         name: "password",
         required: true,
         placeholder: "Password here...",
-        value: '12345678'
+        value: "12345678"
     },
-    /*  message: "",
-     showalert: false,
-     showlogin: true,
-     showlink: false,
-     alertclass: "alert alert-success", */
+
     modal: {
         opened: false,
         title: "",
         message: ""
-    },
-    newDSU: {
-        label: "New DSU",
-        name: "newDSU",
-        placeholder: 'Click "Get SSI"',
-        value: ""
-    },
-    loadDSU: {
-        label: "Load DSU",
-        name: "newDSU",
-        placeholder: "Enter DSU keySSI",
-        value: ""
     }
+    /* ,
+        newDSU: {
+            label: "New DSU",
+            name: "newDSU",
+            placeholder: 'Click "Get SSI"',
+            value: ""
+        },
+        loadDSU: {
+            label: "Load DSU",
+            name: "newDSU",
+            placeholder: "Enter DSU keySSI",
+            value: ""
+        } */
 }
 
 
@@ -53,9 +50,9 @@ export default class LoginController extends ContainerController {
         super(element, history);
         this.model = this.setModel(JSON.parse(JSON.stringify(model)));
         DSUManager.logOut();
-
+        DSUManager.loadDSU();
         this.on("loginSubmit", async() => {
-            /* let login = this.model.couriername.value + '/' + this.model.username.value; */
+            /* let login = this.model.couriername.value + "/" + this.model.username.value; */
             await DSUManager.setUser(this.model.couriername.value, this.model.username.value);
             /*  await new Promise(resolve => setTimeout(resolve, 200)); */
             if (DSUManager.isUserLoggedIn() == true) {
@@ -64,16 +61,15 @@ export default class LoginController extends ContainerController {
                 /*  showModal(this.model, "Error", "Could not sign in"); */
             }
         });
-        this.on('closeModal', () => this.model.modal.opened = false);
-        this.on('getSSI', async() => {
+        this.on("closeModal", () => this.model.modal.opened = false);
+        this.on("getSSI", async() => {
             DSUManager.createDSU();
             await new Promise(resolve => setTimeout(resolve, 1000));
             this.model.newDSU.value = DSUManager.getSSI();
         });
-        this.on('loadDSU', () => {
+        this.on("loadDSU", () => {
             this.model.newDSU.value = DSUManager.loadDSU(this.model.loadDSU.value);
             showModal(this.model);
-            console.log(this.model.modal);
         });
     }
 }

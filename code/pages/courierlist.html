@@ -7,7 +7,7 @@
                     <psk-img class="navbar-img" src="assets/images/PharmaLedger_logo_RGB_FINAL.png"></psk-img>
                 </div>
                 <div class="navbar-user">
-                    <psk-container controller-name="AdminListController">
+                    <psk-container controller-name="CourierListController">
                         <psk-label label="@courier"></psk-label>
                         <psk-label label="@user"></psk-label>
                         <psk-link page="login">Logout</psk-link>
@@ -19,35 +19,14 @@
 
         <psk-layout>
             <psk-layout-item align="center" style="margin-top:20px">
-                <h5 class="admin-header">Admin List</h5>
+                <h5 class="courier-header">Courier List</h5>
             </psk-layout-item>
             <psk-card>
 
-                <psk-form controller-name="AdminListController">
+                <psk-form controller-name="CourierListController">
 
                     <psk-layout-item style="display:flex; justify-content: center" align="center" style="margin:10px 0px">
-                        <psk-button button-class="btn btn-success admin-button" event-name="createKit" label="Create Kit">
-                        </psk-button>
-                    </psk-layout-item>
-
-                    <psk-form-row style="margin-top:10px">
-                        <psk-grid columns="1" layout="l=[4,4,4]">
-                            <psk-select class="admin-input" view-model="searchStatus"></psk-select>
-                    </psk-form-row>
-
-                    <psk-form-row style="margin-top:10px">
-                        <psk-grid columns="1" layout="l=[4,4,4]">
-                            <psk-text-input class="admin-input" view-model="searchID"></psk-text-input>
-                        </psk-grid>
-                    </psk-form-row>
-
-                    <psk-layout-item style="display:flex; justify-content: center" align="center" style="margin:10px 0px">
-                        <psk-button button-class="btn btn-success admin-button" event-name="search" label="Search">
-                        </psk-button>
-                    </psk-layout-item>
-
-                    <psk-layout-item style="display:flex; justify-content: center" align="center" style="margin:10px 0px">
-                        <psk-button button-class="btn btn-success admin-button" event-name="loadKits" label="Load all Kits">
+                        <psk-button button-class="btn btn-success courier-button" event-name="loadKits" label="Load Kits">
                         </psk-button>
                     </psk-layout-item>
 
@@ -71,7 +50,7 @@
                                 <psk-label label="@productname"></psk-label>
                             </psk-layout>
                             <psk-layout align-content-y="center" template-columns="98fr">
-                                <psk-button button-class="edit-button" event-name="editKit" id="@id" label="Edit Kit">
+                                <psk-button button-class="edit-button" event-name="showDetails" id="@id" label="Details">
                                 </psk-button>
                             </psk-layout>
                         </psk-layout>
@@ -137,32 +116,24 @@
     }
     /* NEU----------------------------------------- */
     
-    .admin-header {
-        font-size: 18px;
-        color: #9B1616;
-        font-weight: bold;
-    }
-    
-    .admin-input input,
-    .admin-input select,
-    .admin-input textarea {
-        border: 1.5px solid #9B1616;
+    .courier-input input,
+    .courier-input textarea {
+        border: 1.5px solid #0AA524;
         border-radius: 9px;
-        min-height: 40px;
     }
     
-    .admin-input label {
-        color: #9B1616;
+    .courier-input label {
+        color: #0AA524;
     }
     
-    .admin-button {
-        background-color: #9B1616 !important;
-        border-color: #9B1616 !important;
+    .courier-button {
+        background-color: #0AA524 !important;
+        border-color: #0AA524 !important;
     }
     
     .edit-button {
-        background-color: #9B1616;
-        border-color: #9B1616;
+        background-color: #0AA524;
+        border-color: #0AA524;
         box-shadow: rgb(53 79 155 / 35%) 0px 15px 30px -12px;
         padding: 8px 16px;
         border-radius: 5px;

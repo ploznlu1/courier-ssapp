@@ -7,11 +7,12 @@ require("./../../privatesky/psknode/bundles/openDSU.js");
 
 const fs = require("fs");
 const openDSU = require("opendsu");
+const { resolve } = require("./../../privatesky/psknode/bundles/openDSU.js");
 const keyssi = openDSU.loadApi("keyssi");
 const resolver = openDSU.loadApi("resolver");
 
-function getCardinalDossierSeed(callback){
-    fs.readFile(CARDINAL_SEED_FILE_PATH, (err, content)=>{
+function getCardinalDossierSeed(callback) {
+    fs.readFile(CARDINAL_SEED_FILE_PATH, (err, content) => {
         if (err || content.length === 0) {
             return callback(err);
         }
@@ -19,9 +20,9 @@ function getCardinalDossierSeed(callback){
     })
 }
 
-function getThemeDossierSeed(themeName, callback){
+function getThemeDossierSeed(themeName, callback) {
 
-    fs.readFile(`${THEMES_PATH}/${themeName}/seed`, (err, content)=>{
+    fs.readFile(`${THEMES_PATH}/${themeName}/seed`, (err, content) => {
         if (err || content.length === 0) {
             return callback(err);
         }
@@ -46,12 +47,12 @@ function createDossier(callback) {
 }
 
 function updateDossier(bar, callback) {
-    bar.delete("/", function(err){
-        if(err){
+    bar.delete("/", function(err) {
+        if (err) {
             throw err;
         }
 
-        bar.addFolder("code", "/", {batch: false, encrypt: false}, (err, archiveDigest) => {
+        bar.addFolder("code", "/", { batch: false, encrypt: false }, (err, archiveDigest) => {
             if (err) {
                 return callback(err);
             }
@@ -62,11 +63,11 @@ function updateDossier(bar, callback) {
                 }
 
                 resolver.loadDSU(barKeySSI, (err, loadedDossier) => {
-                    if(err){
+                    if (err) {
                         return callback(err);
                     }
 
-                    getCardinalDossierSeed((err, cardinalSeed)=>{
+                    getCardinalDossierSeed((err, cardinalSeed) => {
                         if (err) {
                             return callback(err);
                         }
@@ -76,8 +77,9 @@ function updateDossier(bar, callback) {
                             }
                             try {
                                 let themeNames = fs.readdirSync(THEMES_PATH);
-                                function addTheme(theme, callback){
-                                    getThemeDossierSeed(theme,(err, themeSeed) => {
+
+                                function addTheme(theme, callback) {
+                                    getThemeDossierSeed(theme, (err, themeSeed) => {
                                         if (err) {
                                             return callback(err);
                                         }
@@ -87,23 +89,23 @@ function updateDossier(bar, callback) {
                                                 return callback(err);
                                             }
 
-                                            if(themeNames.length !== 0){
+                                            if (themeNames.length !== 0) {
                                                 addTheme(themeNames.pop(), callback);
-                                            }else{
+                                            } else {
                                                 return callback();
                                             }
                                         });
                                     })
                                 }
 
-                                if(themeNames.length > 0){
-                                    addTheme(themeNames.pop(), function(err){
+                                if (themeNames.length > 0) {
+                                    addTheme(themeNames.pop(), function(err) {
                                         if (err) {
                                             return callback(err);
                                         }
                                         storeKeySSI(DOSSIER_SEED_FILE_PATH, barKeySSI, callback);
                                     })
-                                }else{
+                                } else {
                                     storeKeySSI(DOSSIER_SEED_FILE_PATH, barKeySSI, callback);
                                 }
                             } catch (e) {
@@ -117,7 +119,31 @@ function updateDossier(bar, callback) {
     });
 }
 
-function build(callback) {
+async function build(callback) {
+    const seedSSI = keyssi.createSeedSSI("default");
+    let ssi = "";
+    await new Promise((resolve, reject) => {
+        try {
+            resolver.createDSU(seedSSI, (err, dsuInstance) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    console.log("SSI for DSU:", dsuInstance.getCreationSSI());
+                    ssi = dsuInstance.getCreationSSI();
+                    resolve(ssi);
+                }
+            });
+        } catch (err) {
+            reject(err);
+        }
+    }).then((ssi) => {
+        fs.writeFile("./code/DSU_SSI.js", 'const ssi = "' + ssi + '";\rfunction getSSI()\r\t{\r\t\treturn ssi;\r\t}\rexport default {\r\tgetSSI\r}', (err) => {
+            return callback(err, "");
+        });
+    }).catch((err) => {
+        console.error(err);
+    });
+
     fs.readFile(DOSSIER_SEED_FILE_PATH, (err, content) => {
         if (err || content.length === 0) {
             console.log(`Creating a new Dossier...`);
@@ -132,7 +158,7 @@ function build(callback) {
             return createDossier(callback);
         }
 
-        if(keySSI.getDLDomain() !== DEFAULT_DOMAIN){
+        if (keySSI.getDLDomain() !== DEFAULT_DOMAIN) {
             console.log("Domain change detected. Creating a new Dossier...");
             return createDossier(callback);
         }
@@ -148,7 +174,7 @@ function build(callback) {
     });
 }
 
-build(function (err, keySSI) {
+build(function(err, keySSI) {
     let path = require("path");
     let projectName = path.basename(path.join(__dirname, "../"));
     if (err) {

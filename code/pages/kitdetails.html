@@ -7,7 +7,7 @@
                     <psk-img class="navbar-img" src="assets/images/PharmaLedger_logo_RGB_FINAL.png"></psk-img>
                 </div>
                 <div class="navbar-user">
-                    <psk-container controller-name="CreateDemoKitsController">
+                    <psk-container controller-name="KitDetailsController">
                         <psk-label label="@courier"></psk-label>
                         <psk-label label="@user"></psk-label>
                         <psk-link page="login">Logout</psk-link>
@@ -19,11 +19,11 @@
 
         <psk-layout row-gap="0.2em">
             <psk-layout-item align="center" style="margin-top:20px">
-                <h5 class="admin-header">Edit Kit</h5>
+                <h5 class="courier-header">Kit Details</h5>
             </psk-layout-item>
 
             <psk-card class="">
-                <psk-form controller-name="EditKitController">
+                <psk-form controller-name="KitDetailsController">
 
                     <psk-modal class="mobile-modal" opened="@modal.opened">
                         <psk-label slot="title" label="@modal.title"></psk-label>
@@ -33,42 +33,42 @@
 
                     <psk-form-row style="margin-top:10px">
                         <psk-grid columns="1" layout="l=[4,4,4]">
-                            <psk-text-input class="admin-input" view-model="kitid" value="@kit.kitid"></psk-text-input>
+                            <psk-text-input class="courier-input" view-model="kitid" value="@kit.kitid" read-only="true"></psk-text-input>
                         </psk-grid>
                     </psk-form-row>
 
                     <psk-form-row style="margin-top:10px">
                         <psk-grid columns="1" layout="l=[4,4,4]">
-                            <psk-text-input class="admin-input" view-model="productname" value="@kit.productname">
+                            <psk-text-input class="courier-input" view-model="productname" value="@kit.productname" read-only="true">
                             </psk-text-input>
                         </psk-grid>
                     </psk-form-row>
 
                     <psk-form-row style="margin-top:10px">
                         <psk-grid columns="1" layout="l=[4,4,4]">
-                            <psk-select class="admin-input" view-model="statusSelect" value="@kit.status"></psk-select>
+                            <psk-select class="courier-input" view-model="statusSelect" value="@kit.status" disabled="true"></psk-select>
                     </psk-form-row>
 
                     <psk-form-row style="margin-top:10px">
                         <psk-grid columns="1" layout="l=[4,4,4]">
-                            <psk-select class="admin-input" view-model="courierSelect" value="@kit.courier"></psk-select>
+                            <psk-select class="courier-input" view-model="courierSelect" value="@kit.courier" disabled="true"></psk-select>
                     </psk-form-row>
 
                     <psk-form-row style="margin-top:10px">
                         <psk-grid columns="1" layout="l=[4,4,4]">
-                            <psk-textarea class="admin-input" view-model="description" value="@kit.description">
+                            <psk-textarea class="courier-input" view-model="description" value="@kit.description" read-only="true">
                             </psk-textarea>
                     </psk-form-row>
 
                     <psk-form-row style="margin-top:10px">
                         <psk-grid columns="1" layout="l=[4,4,4]">
-                            <psk-textarea class="admin-input" view-model="creationdate" value="@kit.creationdate" read-only="true">
+                            <psk-textarea class="courier-input" view-model="creationdate" value="@kit.creationdate" read-only="true">
                             </psk-textarea>
                     </psk-form-row>
 
 
                     <psk-layout-item style="display:flex; justify-content: center" align="center" style="margin:10px 0px">
-                        <psk-button button-class="btn btn-success admin-button" event-name="saveKit" label="Save Kit">
+                        <psk-button button-class="btn btn-success courier-button" event-name="nextStep" label="@nextStep" disabled="@buttonDisabled">
                         </psk-button>
                     </psk-layout-item>
 
@@ -136,27 +136,21 @@
     }
     /* NEU----------------------------------------- */
     
-    .admin-header {
-        font-size: 18px;
-        color: #9B1616;
-        font-weight: bold;
-    }
-    
-    .admin-input input,
-    .admin-input select,
-    .admin-input textarea {
-        border: 1.5px solid #9B1616;
+    .courier-input input,
+    .courier-input textarea,
+    .courier-input select {
+        border: 1.5px solid #0AA524;
         border-radius: 9px;
         min-height: 40px;
     }
     
-    .admin-input label {
-        color: #9B1616;
+    .courier-input label {
+        color: #0AA524;
     }
     
-    .admin-button {
-        background-color: #9B1616 !important;
-        border-color: #9B1616 !important;
+    .courier-button {
+        background-color: #0AA524 !important;
+        border-color: #0AA524 !important;
     }
     
     .navbar-user {

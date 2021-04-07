@@ -23,8 +23,12 @@
             "tags": "editkit"
         },
         {
-            "name": "userlist",
-            "tags": "userlist"
+            "name": "courierlist",
+            "tags": "courierlist"
+        },
+        {
+            "name": "kitdetails",
+            "tags": "kitdetails"
         }
     ]
 }
