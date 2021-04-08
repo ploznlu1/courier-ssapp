@@ -7,7 +7,7 @@
                     <psk-img class="navbar-img" src="assets/images/PharmaLedger_logo_RGB_FINAL.png"></psk-img>
                 </div>
                 <div class="navbar-user">
-                    <psk-container controller-name="AdminListController">
+                    <psk-container controller-name="AuditController">
                         <psk-label label="@courier"></psk-label>
                         <psk-label label="@user"></psk-label>
                         <psk-link page="login">Logout</psk-link>
@@ -19,58 +19,23 @@
 
         <psk-layout>
             <psk-layout-item align="center" style="margin-top:20px">
-                <h5 class="admin-header">Admin List</h5>
+                <h5 class="admin-header">Audit Log</h5>
             </psk-layout-item>
             <psk-card>
 
-                <psk-form controller-name="AdminListController">
-
-                    <psk-form-row style="margin-top:10px">
-                        <psk-grid columns="1" layout="l=[4,4,4]">
-                            <psk-select class="admin-input" view-model="searchStatus"></psk-select>
-                    </psk-form-row>
-
-                    <psk-form-row style="margin-top:10px">
-                        <psk-grid columns="1" layout="l=[4,4,4]">
-                            <psk-text-input class="admin-input" view-model="searchID"></psk-text-input>
-                        </psk-grid>
-                    </psk-form-row>
+                <psk-form controller-name="AuditController">
 
                     <psk-layout-item style="display:flex; justify-content: center" align="center" style="margin:10px 0px">
-                        <psk-button button-class="btn btn-success admin-button" event-name="search" label="Search">
+                        <psk-button button-class="btn btn-success admin-button" event-name="loadLog" label="Load Log">
                         </psk-button>
                     </psk-layout-item>
 
-                    <psk-layout-item style="display:flex; justify-content: center" align="center" style="margin:10px 0px">
-                        <psk-button button-class="btn btn-success admin-button" event-name="loadKits" label="Load all Kits">
-                        </psk-button>
-                    </psk-layout-item>
+                    <psk-form-row style="margin-top:10px">
+                        <psk-grid columns="1" layout="l=[4,4,4]">
+                            <psk-textarea class="admin-input" view-model="log" value="@dsulog" read-only="true"></psk-textarea>
+                    </psk-form-row>
 
 
-
-
-                    <psk-layout template-columns="100px 100px 100px" column-gap="20px" row-gap="100px">
-                        <psk-label label="Kit-ID"></psk-label>
-                        <psk-label label="Product Name"></psk-label>
-                        <psk-label label="Edit"></psk-label>
-                    </psk-layout>
-
-
-                    <psk-for-each data-view-model="@kits">
-                        <psk-layout template-columns="100px 100px 100px" column-gap="20px">
-
-                            <psk-layout align-content-y="center" template-columns="98fr">
-                                <psk-label label="@kitid"></psk-label>
-                            </psk-layout>
-                            <psk-layout align-content-y="center" template-columns="98fr">
-                                <psk-label label="@productname"></psk-label>
-                            </psk-layout>
-                            <psk-layout align-content-y="center" template-columns="98fr">
-                                <psk-button button-class="edit-button" event-name="editKit" id="@id" label="Edit Kit">
-                                </psk-button>
-                            </psk-layout>
-                        </psk-layout>
-                    </psk-for-each>
                 </psk-form>
             </psk-card>
         </psk-layout>
@@ -143,7 +108,9 @@
     .admin-input textarea {
         border: 1.5px solid #9B1616;
         border-radius: 9px;
-        min-height: 40px;
+        min-height: 600px;
+        height: 600px;
+        max-height: 600px;
     }
     
     .admin-input label {

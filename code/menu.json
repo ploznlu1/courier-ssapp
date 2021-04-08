@@ -29,6 +29,15 @@
         {
             "name": "kitdetails",
             "tags": "kitdetails"
+        },
+        {
+            "name": "audit",
+            "tags": "audit"
+        },
+        {
+            "name": "scan",
+            "tags": "scan"
         }
+
     ]
 }

@@ -137,9 +137,16 @@ async function build(callback) {
             reject(err);
         }
     }).then((ssi) => {
-        fs.writeFile("./code/DSU_SSI.js", 'const ssi = "' + ssi + '";\rfunction getSSI()\r\t{\r\t\treturn ssi;\r\t}\rexport default {\r\tgetSSI\r}', (err) => {
-            return callback(err, "");
-        });
+        fs.writeFile("./code/DSU_SSI.js",
+            `const ssi = "` + ssi + `";
+        function getSSI() {
+            return ssi;
+        }
+        export default {
+            getSSI
+        }`, (err) => {
+                return callback(err, "");
+            });
     }).catch((err) => {
         console.error(err);
     });

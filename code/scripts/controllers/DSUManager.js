@@ -118,17 +118,51 @@ async function createKit(kit) {
             if (err) {
                 reject(err);
             } else {
+
+                /* console.log("NEU", JSON.stringify(newData));
+                dsu.readFile("/dsulog", (err, buffer) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    oldData = JSON.parse(buffer.toString());
+                    dsu.writeFile("/dsulog", JSON.stringify(newData), (err) => {
+                        if (err) {
+                            reject(err);
+                        }
+                    });
+                }); */
+                /*  dsu.appendToFile("/dsulog",
+                     `Kit was created:
+                 ID: ` + kit.id + `
+                 Kit-ID: ` + kit.kitid + `
+                 Creation Date: ` + kit.creationdate + `
+                 Product Name: ` + kit.productname + `
+                 Status: ` + kit.status + `
+                 Courier: ` + kit.courier + `
+                 Description: ` + kit.description + `
+                 `, (err) => {}); */
+                /* dsu.appendToFile("/dsulog", `Kit was created:\n` + `ID: ` + kit.id + `\nKit-ID: ` + kit.kitid + `\nCreation Date: ` + kit.creationdate + `\nProduct Name: ` + kit.productname + `\nStatus: ` + kit.status + `\nCourier: ` + kit.courier + `\nDescription: ` + kit.description + `\n`, (err) => {});
+                 */
+                dsu.dsuLog("------------------------------------", (err) => { reject(err); });
+                dsu.dsuLog("Creation Date: " + kit.creationdate, (err) => { reject(err); });
+                dsu.dsuLog("ID: " + kit.id, (err) => { reject(err); });
+                dsu.dsuLog("Kit-ID:" + kit.kitid, (err) => { reject(err); });
+                dsu.dsuLog("Product Name: " + kit.productname, (err) => { reject(err); });
+
+
                 resolve("Kit " + kit.kitid + " was created.");
 
             }
         })
     }).then((message) => {
         setModal("Success", message);
+
         kit.id = "";
+
     }).catch((err) => {
         setModal("Error", "Kit was NOT created, check console");
         console.log(err);
-    })
+    });
 
 }
 
@@ -192,12 +226,67 @@ function getModal() {
 
 async function nextStep(id) {
     let kit = getKit(id);
-    if (kit.status == 1) kit.status = 2;
-    else if (kit.status == 2) kit.status = 4;
-    else if (kit.status == 4) kit.status = 5;
-    else if (kit.status == 5) kit.status = 6;
+    if (kit.status == 1) {
+        kit.status = 2;
+        logStatusChange(1, 2);
+    } else if (kit.status == 2) {
+        kit.status = 4;
+        logStatusChange(2, 4);
+    } else if (kit.status == 4) {
+        kit.status = 5;
+        logStatusChange(4, 5);
+    } else if (kit.status == 5) {
+        kit.status = 6;
+        logStatusChange(5, 6);
+    }
     await createKit(kit);
     setModal("Success", "Status was changed successfully");
+
+}
+
+function logStatusChange(oldStatus, newStatus) {
+    let date = Date(Date.now());
+    dsu.dsuLog("------------------------------------", (err) => { /*  reject(err); */ });
+    dsu.dsuLog("Change Date: " + date.toString(), (err) => { /*  reject(err); */ });
+    dsu.dsuLog(getCourier() + "/" + getUser() + ": Status changed from " + oldStatus + " to " + newStatus + ": ", (err) => { /* reject(err); */ });
+}
+
+async function getLog() {
+    let dsulog = "";
+    await new Promise((resolve, reject) => {
+        let log = ""
+        try {
+            /* dsu.readFile("/dsu-metadata-log", (err, buffer) => {
+                if (err) {
+                    reject(err);
+                }
+                log = JSON.parse('"' + buffer.toString() + '"');
+                resolve(log);
+            }); */
+            dsu.readFile('/dsu-metadata-log', (err, data) => {
+                dsulog = data.toString();
+
+                resolve(dsulog);
+
+
+
+
+            });
+        } catch (err) {
+            reject(err);
+        }
+
+    }).then((dsulog) => {
+
+
+
+
+    }).catch((err) => {
+        console.error(err);
+    });
+    return dsulog;
+    /*   var str = JSON.stringify(log, null, 2);
+      return str; */
 }
 export default {
     /*     createDSU,
@@ -215,5 +304,7 @@ export default {
     getCourierKits,
     setModal,
     getModal,
-    nextStep
+    nextStep,
+    logStatusChange,
+    getLog
 }
