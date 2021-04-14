@@ -25,35 +25,66 @@
 
                 <psk-form controller-name="CourierListController">
 
+                    <psk-modal class="mobile-modal" opened="@modal.opened">
+                        <psk-label slot="title" label="@modal.title"></psk-label>
+                        <psk-label label="@modal.message"></psk-label>
+                        <psk-button slot="footer" event-name="closeModal" label="Close"></psk-button>
+                    </psk-modal>
+
+                    <psk-form-row style="margin-top:10px">
+                        <psk-grid columns="1" layout="l=[4,4,4]">
+                            <psk-select class="courier-input" view-model="searchStatus"></psk-select>
+                    </psk-form-row>
+
+                    <psk-form-row style="margin-top:10px">
+                        <psk-grid columns="1" layout="l=[4,4,4]">
+                            <psk-text-input class="courier-input" view-model="searchID"></psk-text-input>
+                        </psk-grid>
+                    </psk-form-row>
+
                     <psk-layout-item style="display:flex; justify-content: center" align="center" style="margin:10px 0px">
-                        <psk-button button-class="btn btn-success courier-button" event-name="loadKits" label="Load Kits">
+                        <psk-button button-class="btn btn-success courier-button" event-name="search" label="Search">
                         </psk-button>
                     </psk-layout-item>
 
-
-
-
-                    <psk-layout template-columns="100px 100px 100px" column-gap="20px" row-gap="100px">
-                        <psk-label label="Kit-ID"></psk-label>
-                        <psk-label label="Product Name"></psk-label>
-                        <psk-label label="Edit"></psk-label>
-                    </psk-layout>
-
+                    <psk-layout-item style="display:flex; justify-content: center" align="center" style="margin:10px 0px">
+                        <psk-button button-class="btn btn-success courier-button" event-name="loadKits" label="Load all Kits">
+                        </psk-button>
+                    </psk-layout-item>
 
                     <psk-for-each data-view-model="@kits">
-                        <psk-layout template-columns="100px 100px 100px" column-gap="20px">
+                        <div class="kit">
+                            <psk-layout template-columns="100px 200px" column-gap="20px">
+                                <psk-label class="labeltitle" label="Kit-ID"></psk-label>
+                                <psk-label class="labeltitle" label="Product Name"></psk-label>
+                            </psk-layout>
 
-                            <psk-layout align-content-y="center" template-columns="98fr">
-                                <psk-label label="@kitid"></psk-label>
+                            <psk-layout template-columns="100px 200px" column-gap="20px">
+                                <psk-layout align-content-y="center" template-columns="100px">
+                                    <psk-label label="@kitid"></psk-label>
+                                </psk-layout>
+                                <psk-layout align-content-y="center" template-columns="200px">
+                                    <psk-label label="@productname"></psk-label>
+                                </psk-layout>
                             </psk-layout>
-                            <psk-layout align-content-y="center" template-columns="98fr">
-                                <psk-label label="@productname"></psk-label>
+                            <div class="gap"></div>
+                            <psk-layout template-columns="100px 200px" column-gap="20px">
+                                <psk-label class="labeltitle" label="Courier"></psk-label>
+                                <psk-label class="labeltitle" label="Status"></psk-label>
                             </psk-layout>
-                            <psk-layout align-content-y="center" template-columns="98fr">
-                                <psk-button button-class="edit-button" event-name="showDetails" id="@id" label="Details">
+
+                            <psk-layout template-columns="100px 200px" column-gap="20px">
+                                <psk-label label="@courier"></psk-label>
+                                <psk-label label="@statusLabel"></psk-label>
+                            </psk-layout>
+                            <psk-layout template-columns="300px" column-gap="20px">
+                                <psk-button button-class="edit-button" event-name="showDetails" id="@id" label="Show Details">
                                 </psk-button>
                             </psk-layout>
-                        </psk-layout>
+                            <div class="smallgap"></div>
+                        </div>
+                        <div class="gap"></div>
+                        <div class="gap"></div>
                     </psk-for-each>
                 </psk-form>
             </psk-card>
@@ -78,46 +109,15 @@
     </psk-mobile>
 </psk-example>
 <style>
-    .psk-link button {
-        background: none !important;
-        color: #4C71DE !important;
-        text-decoration: underline;
-        border: none !important;
-        margin: 0px !important;
-        padding: 0px !important;
+    .courier-header {
+        font-size: 18px;
+        color: #0AA524;
+        font-weight: bold;
     }
-    
-    .icon-button button {
-        background: none !important;
-        border: none !important;
-        padding: 0px !important;
-        margin-top: 0px !important;
-        margin-bottom: 0px !important;
-    }
-    
-    .table-header {
-        border: 1px solid black;
-        padding-left: 10px;
-    }
-    
-    .table-row {
-        border-bottom: 1px solid black;
-        border-left: 1px solid black;
-        border-right: 1px solid black;
-        padding-left: 10px;
-    }
-    
-    .active psk-icon {
-        color: black;
-    }
-    
-    psk-icon {
-        color: darkgray;
-    }
-    /* NEU----------------------------------------- */
     
     .courier-input input,
-    .courier-input textarea {
+    .courier-input textarea,
+    .courier-input select {
         border: 1.5px solid #0AA524;
         border-radius: 9px;
     }
@@ -137,9 +137,9 @@
         box-shadow: rgb(53 79 155 / 35%) 0px 15px 30px -12px;
         padding: 8px 16px;
         border-radius: 5px;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-        width: 90px;
+        margin-top: 4px;
+        margin-bottom: -10px;
+        width: 290px;
         height: 40px;
         font-size: 14px;
         font-weight: bold;
@@ -171,5 +171,24 @@
         margin-left: -65px;
         margin-right: auto;
         height: 57px;
+    }
+    
+    .gap {
+        height: 20px;
+    }
+    
+    .smallgap {
+        height: 5px;
+    }
+    
+    .kit {
+        border: 2px solid #0AA524;
+        border-radius: 9px;
+        padding: 10px;
+        width: 315px;
+    }
+    
+    .labeltitle {
+        font-weight: bold;
     }
 </style>

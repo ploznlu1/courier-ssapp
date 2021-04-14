@@ -51,7 +51,8 @@
 
                     <psk-form-row style="margin-top:10px">
                         <psk-grid columns="1" layout="l=[4,4,4]">
-                            <psk-select class="admin-input" view-model="courierSelect" value="@kit.courier"></psk-select>
+                            <psk-select class="admin-input" view-model="courierSelect" value="@kit.courier">
+                            </psk-select>
                     </psk-form-row>
 
                     <psk-form-row style="margin-top:10px">
@@ -71,6 +72,15 @@
                         <psk-button button-class="btn btn-success admin-button" event-name="saveKit" label="Save Kit">
                         </psk-button>
                     </psk-layout-item>
+
+                    <psk-layout-item style="display:flex; justify-content: center" align="center" style="margin:10px 0px">
+                        <psk-button button-class="btn btn-success admin-button" event-name="toggleDatamatrix" label="@datamatrixLabel">
+                        </psk-button>
+                    </psk-layout-item>
+
+                    <psk-condition condition="@isDatamatrixShown">
+                        <psk-barcode-generator type="datamatrix" size="24" data="@kit.kitid"></psk-barcode-generator>
+                    </psk-condition>
 
 
                 </psk-form>

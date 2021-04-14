@@ -1,12 +1,14 @@
-import ContainerController from "../../cardinal/controllers/base-controllers/ContainerController.js";
-import DSUManager from "./DSUManager.js";
+import ContainerController from "../../cardinal/controllers/base-controllers/ContainerController.js"; // main controller
+import DSUManager from "./DSUManager.js"; // DSU manager
 
 const model = {
+    // user info
     user: "",
     courier: "",
     id: {
         value: ""
     },
+    // kit-ID text input
     kitid: {
         label: "Kit-ID",
         name: "kitid",
@@ -14,6 +16,7 @@ const model = {
         placeholder: "Kit-ID here...",
         value: ""
     },
+    // product name text input
     productname: {
         label: "Product Name",
         name: "product Name",
@@ -21,6 +24,7 @@ const model = {
         placeholder: "Prodcut Name here...",
         value: ""
     },
+    // status dropdown
     statusSelect: {
         label: "Status",
         placeholder: "Please select one option...",
@@ -32,8 +36,8 @@ const model = {
             label: "In transit",
             value: "2"
         }, {
-            label: "Delivered to patient",
-            /*wird nicht benutzt*/
+            label: "(not used) Delivered to patient",
+            // not in use
             value: "3"
         }, {
             label: "Ready for pickup at patient",
@@ -46,18 +50,20 @@ const model = {
             value: "6"
         }]
     },
+    // courier dropdown
     courierSelect: {
         label: "Courier",
         placeholder: "Please select one option...",
         required: true,
         options: [{
             label: "DHL",
-            value: "dhl"
+            value: "DHL"
         }, {
             label: "UPS",
-            value: "ups"
+            value: "UPS"
         }]
     },
+    // description text area
     description: {
         label: "Description",
         name: "description",
@@ -70,10 +76,12 @@ const model = {
         kitid: "",
         productname: "",
         status: "",
+        statusLabel: "",
         courier: "",
         description: "",
         creationdate: ""
     },
+    // values of "modal" prompt window
     modal: {
         opened: false,
         title: "",
@@ -81,45 +89,72 @@ const model = {
     }
 }
 
-
+/**
+ * Controller for Create Data page (createdemokits) 
+ */
 export default class CreateDemoKitsController extends ContainerController {
+    /**
+     * Constructor of CreateDemoKitsController
+     * @param {object} element default object
+     * @param {object} history default object
+     */
     constructor(element, history) {
         super(element, history);
-        this.model = this.setModel(JSON.parse(JSON.stringify(model)));
-        this.model.courier = DSUManager.getCourier();
-        this.model.user = DSUManager.getUser();
+        this.model = this.setModel(JSON.parse(JSON.stringify(model))); // sets model
+        this.model.courier = DSUManager.getCourier(); // sets courier
+        this.model.user = DSUManager.getUser(); // sets user
+        // kit with input data is created
         this.on("createKit", async() => {
             this.model.kit.kitid = this.model.kitid.value;
             this.model.kit.productname = this.model.productname.value;
             this.model.kit.status = this.model.statusSelect.value;
+            if (this.model.statusSelect.value) {
+                this.model.kit.statusLabel = this.model.statusSelect.options[this.model.statusSelect.value - 1].label; // stores status label
+            }
             this.model.kit.courier = this.model.courierSelect.value;
             this.model.kit.description = this.model.description.value;
-            let date = Date(Date.now());
+
+            let date = Date(Date.now()); // gets creation date
             this.model.kit.creationdate = date.toString();
 
             await DSUManager.createKit(this.model.kit);
-            showModal(this.model, "Success", ("Kit " + this.model.kit.kitid + " created successfully."));
+            showModal(this.model);
 
-            this.model.id.value = "";
-            this.model.kitid.value = "";
-            this.model.productname.value = "";
-            this.model.statusSelect.value = "";
-            this.model.courierSelect.value = "";
-            this.model.description.value = "";
-            this.model.kitid.value = "";
         });
-        this.on("closeModal", () => this.model.modal.opened = false);
-        this.on("showList", () => this.History.navigateToPageByTag("adminlist"));
+        this.on("closeModal", () => this.model.modal.opened = false); // closes modal prompt window
+        this.on("showList", () => this.History.navigateToPageByTag("adminlist")); // link to admin list page
+        this.on("clearFields", () => clear(this.model));
     }
 }
 
+/**
+ * Show prompt in case of error or success
+ * @param {object} model model of the controller
+ * @returns model of the controller
+ */
 async function showModal(model) {
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise(resolve => setTimeout(resolve, 400)); // waiting in case DSU is still loading
     let modal = DSUManager.getModal();
     model.modal.title = modal[0];
     model.modal.message = modal[1];
+    // if prompt has value
     if (model.modal.title != "" && model.modal.message != "") {
         model.modal.opened = true;
     }
+    return model;
+}
+
+/**
+ * Clears all input fields
+ * @param {object} model model of the controller 
+ */
+function clear(model) {
+    model.id.value = "";
+    model.kitid.value = "";
+    model.productname.value = "";
+    model.statusSelect.value = "";
+    model.courierSelect.value = "";
+    model.description.value = "";
+    model.kitid.value = "";
     return model;
 }

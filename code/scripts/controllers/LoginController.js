@@ -1,7 +1,8 @@
-import ContainerController from "../../cardinal/controllers/base-controllers/ContainerController.js";
-import DSUManager from "./DSUManager.js";
+import ContainerController from "../../cardinal/controllers/base-controllers/ContainerController.js"; // main controller
+import DSUManager from "./DSUManager.js"; // DSU manager
 
 const model = {
+    // couriername text input
     couriername: {
         label: "Courier name",
         name: "couriername",
@@ -9,6 +10,7 @@ const model = {
         placeholder: "Courier name here...",
         value: ""
     },
+    // username text input
     username: {
         label: "Username",
         name: "username",
@@ -16,6 +18,7 @@ const model = {
         placeholder: "Username here...",
         value: ""
     },
+    // password text input (is disabled)
     password: {
         label: "Password",
         name: "password",
@@ -23,62 +26,53 @@ const model = {
         placeholder: "Password here...",
         value: "12345678"
     },
-
+    // values of "modal" prompt window
     modal: {
         opened: false,
         title: "",
         message: ""
     }
-    /* ,
-        newDSU: {
-            label: "New DSU",
-            name: "newDSU",
-            placeholder: 'Click "Get SSI"',
-            value: ""
-        },
-        loadDSU: {
-            label: "Load DSU",
-            name: "newDSU",
-            placeholder: "Enter DSU keySSI",
-            value: ""
-        } */
 }
 
-
+/**
+ * Controller for Login page
+ */
 export default class LoginController extends ContainerController {
+    /**
+     * 
+     * @param {object} element default object
+     * @param {object} history default object
+     */
     constructor(element, history) {
         super(element, history);
-        this.model = this.setModel(JSON.parse(JSON.stringify(model)));
+        this.model = this.setModel(JSON.parse(JSON.stringify(model))); // sets model
         DSUManager.logOut();
         DSUManager.loadDSU();
+        showModal(this.model);
+        this.on("closeModal", () => this.model.modal.opened = false); // closes modal prompt window
         this.on("loginSubmit", async() => {
-            /* let login = this.model.couriername.value + "/" + this.model.username.value; */
             await DSUManager.setUser(this.model.couriername.value, this.model.username.value);
-            /*  await new Promise(resolve => setTimeout(resolve, 200)); */
+            await new Promise(resolve => setTimeout(resolve, 200)); // waiting for login process to finish
             if (DSUManager.isUserLoggedIn() == true) {
-                this.History.navigateToPageByTag("createdemokits");
+                this.History.navigateToPageByTag("courierlist"); // link to courier list page
             } else {
-                /*  showModal(this.model, "Error", "Could not sign in"); */
+                showModal(this.model);
             }
-        });
-        this.on("closeModal", () => this.model.modal.opened = false);
-        this.on("getSSI", async() => {
-            DSUManager.createDSU();
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            this.model.newDSU.value = DSUManager.getSSI();
-        });
-        this.on("loadDSU", () => {
-            this.model.newDSU.value = DSUManager.loadDSU(this.model.loadDSU.value);
-            showModal(this.model);
         });
     }
 }
 
+/**
+ * Show prompt in case of error or success
+ * @param {object} model model of the controller
+ * @returns model of the controller
+ */
 async function showModal(model) {
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise(resolve => setTimeout(resolve, 400)); // waiting in case DSU is still loading
     let modal = DSUManager.getModal();
     model.modal.title = modal[0];
     model.modal.message = modal[1];
+    // if prompt has value
     if (model.modal.title != "" && model.modal.message != "") {
         model.modal.opened = true;
     }

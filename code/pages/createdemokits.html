@@ -34,7 +34,7 @@
 
                     <psk-form-row style="margin-top:10px">
                         <psk-grid columns="1" layout="l=[4,4,4]">
-                            <psk-text-input class="admin-input" view-model="kitid"></psk-text-input>
+                            <psk-text-input class="admin-input" view-model="kitid" max-length="10"></psk-text-input>
                         </psk-grid>
                     </psk-form-row>
 
@@ -61,6 +61,11 @@
 
                     <psk-layout-item style="display:flex; justify-content: center" align="center" style="margin:10px 0px">
                         <psk-button button-class="btn btn-success admin-button" event-name="createKit" label="Create Kit">
+                        </psk-button>
+                    </psk-layout-item>
+
+                    <psk-layout-item style="display:flex; justify-content: center" align="center" style="margin:10px 0px">
+                        <psk-button button-class="btn btn-success admin-button" event-name="clearFields" label="Clear Fields">
                         </psk-button>
                     </psk-layout-item>
 

@@ -25,6 +25,12 @@
 
                 <psk-form controller-name="AuditController">
 
+                    <psk-modal class="mobile-modal" opened="@modal.opened">
+                        <psk-label slot="title" label="@modal.title"></psk-label>
+                        <psk-label label="@modal.message"></psk-label>
+                        <psk-button slot="footer" event-name="closeModal" label="Close"></psk-button>
+                    </psk-modal>
+
                     <psk-layout-item style="display:flex; justify-content: center" align="center" style="margin:10px 0px">
                         <psk-button button-class="btn btn-success admin-button" event-name="loadLog" label="Load Log">
                         </psk-button>

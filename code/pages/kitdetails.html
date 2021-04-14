@@ -72,6 +72,16 @@
                         </psk-button>
                     </psk-layout-item>
 
+                    <psk-layout-item style="display:flex; justify-content: center" align="center" style="margin:10px 0px">
+                        <psk-button button-class="btn btn-success courier-button" event-name="toggleDatamatrix" label="@datamatrixLabel">
+                        </psk-button>
+                    </psk-layout-item>
+
+                    <psk-condition condition="@isDatamatrixShown">
+                        <psk-barcode-generator type="datamatrix" size="24" data="@kit.kitid"></psk-barcode-generator>
+                    </psk-condition>
+
+
 
                 </psk-form>
 
@@ -98,43 +108,11 @@
     </psk-mobile>
 </psk-example>
 <style>
-    .psk-link button {
-        background: none !important;
-        color: #4C71DE !important;
-        text-decoration: underline;
-        border: none !important;
-        margin: 0px !important;
-        padding: 0px !important;
+    .courier-header {
+        font-size: 18px;
+        color: #0AA524;
+        font-weight: bold;
     }
-    
-    .icon-button button {
-        background: none !important;
-        border: none !important;
-        padding: 0px !important;
-        margin-top: 0px !important;
-        margin-bottom: 0px !important;
-    }
-    
-    .table-header {
-        border: 1px solid black;
-        padding-left: 10px;
-    }
-    
-    .table-row {
-        border-bottom: 1px solid black;
-        border-left: 1px solid black;
-        border-right: 1px solid black;
-        padding-left: 10px;
-    }
-    
-    .active psk-icon {
-        color: black;
-    }
-    
-    psk-icon {
-        color: darkgray;
-    }
-    /* NEU----------------------------------------- */
     
     .courier-input input,
     .courier-input textarea,
