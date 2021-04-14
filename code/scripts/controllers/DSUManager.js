@@ -122,8 +122,8 @@ async function createKit(kit) {
     } else if (kit.courier == undefined) {
         setModal("Invalid Input", "Select a Courier");
     }
-    // Description: numbers, letters and special characters ( .,/-), min. 0, max. 255, Regex: ^[A-Za-z0-9 .,/-]{0,255}$
-    else if (!kit.description.match("^[A-Za-z0-9 .,/-]{0,255}$")) {
+    // Description: numbers, letters and special characters ( .,/-), min. 0, max. 255, Regex: ^[A-Za-z0-9\n .,/-]{0,255}$
+    else if (!kit.description.match("^[A-Za-z0-9\n .,/-]{0,255}$")) {
         setModal("Invalid Input", 'Field "Description" only accepts numbers, letters and special characters ( .,/-), length must be from 0 to 255');
     } else {
         await new Promise((resolve, reject) => {
