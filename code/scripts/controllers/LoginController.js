@@ -52,7 +52,7 @@ export default class LoginController extends ContainerController {
         this.on("closeModal", () => this.model.modal.opened = false); // closes modal prompt window
         this.on("loginSubmit", async() => {
             await DSUManager.setUser(this.model.couriername.value, this.model.username.value);
-            await new Promise(resolve => setTimeout(resolve, 200)); // waiting for login process to finish
+            await new Promise(resolve => setTimeout(resolve, 500)); // waiting for login process to finish
             if (DSUManager.isUserLoggedIn() == true) {
                 this.History.navigateToPageByTag("courierlist"); // link to courier list page
             } else {

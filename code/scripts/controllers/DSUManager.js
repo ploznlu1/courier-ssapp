@@ -46,7 +46,7 @@ async function setUser(courierParameter, userParameter) {
                 try {
                     let loginArray = [courierParameter, userParameter];
                     // stores data in DSU in file "/userdetails"
-                    dsu.writeFile("/userdetails", loginArray.toString(), (err) => {
+                    await dsu.writeFile("/userdetails", loginArray.toString(), (err) => {
                         if (err) {
                             reject(err);
                         } else {
