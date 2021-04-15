@@ -142,7 +142,7 @@ async function createKit(kit) {
 
         }).then((files) => {
 
-            if (kit.id == "") {
+            if (kit.id.toString() == "") {
                 kit.id = (files.length - 2) // asigns kit-id based on number of files stored
             }
         }).catch((err) => {
