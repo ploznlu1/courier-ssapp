@@ -41,8 +41,9 @@ export default class ScanController extends ContainerController {
         // links to kit details page
         this.on("showKitDetails", async() => {
             let actualID = "";
-            actualID = await DSUManager.getIDByKitID(this.model.scanData, "courier").toString();
-            if (actualID != "") {
+            actualID = await DSUManager.getIDByKitID(this.model.scanData, "courier");
+            await new Promise(resolve => setTimeout(resolve, 200));
+            if (actualID.toString() != "") {
                 this.History.navigateToPageByTag("kitdetails", { id: actualID }); // gives ID of Kit to kit details page
             } else {
                 showModal(this.model);

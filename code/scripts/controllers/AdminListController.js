@@ -117,7 +117,7 @@ async function search(kitID, status) {
     if (status) {
         kits = await DSUManager.getKitsByStatus(status, "admin");
     }
-    if (id != "") {
+    if (id.toString() != "") {
         kits = []; // array reset because ID search is prioritized
         kits.push(DSUManager.getKit(id)); // stores kit in array
 
