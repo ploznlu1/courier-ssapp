@@ -1,9 +1,9 @@
 {
-    "theme":"csc-theme",
+    "theme":"ipa-theme",
     "appVersion": "1.0.0",
     "basePagesUrl": "/pages/",
     "profile": {
-        "username": "Consumer",
+        "username": "Courier",
         "email": "",
         "avatar": "resources/images/person.png"
     },
