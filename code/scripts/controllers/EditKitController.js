@@ -13,7 +13,7 @@ const model = {
     },
     // kit-ID text input
     kitid: {
-        label: "Kit-ID",
+        label: "Kit-ID *",
         name: "kitid",
         required: true,
         placeholder: "Kit-ID here...",
@@ -21,7 +21,7 @@ const model = {
     },
     // product name text input
     productname: {
-        label: "Product Name",
+        label: "Product Name *",
         name: "product Name",
         required: true,
         placeholder: "Prodcut Name here...",
@@ -29,7 +29,7 @@ const model = {
     },
     // status dropdown
     statusSelect: {
-        label: "Status",
+        label: "Status *",
         placeholder: "Please select one option...",
         required: true,
         options: [{
@@ -54,7 +54,7 @@ const model = {
     },
     // courier dropdown
     courierSelect: {
-        label: "Courier",
+        label: "Courier *",
         placeholder: "Please select one option...",
         required: true,
         options: [{

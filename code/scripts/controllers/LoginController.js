@@ -4,7 +4,7 @@ import DSUManager from "./DSUManager.js"; // DSU manager
 const model = {
     // couriername text input
     couriername: {
-        label: "Courier name",
+        label: "Courier Name *",
         name: "couriername",
         required: true,
         placeholder: "Courier name here...",
